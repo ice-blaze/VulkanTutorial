@@ -25,7 +25,12 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
-VkResult CreateDebugReportCallbackEXT(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugReportCallbackEXT* pCallback) {
+VkResult CreateDebugReportCallbackEXT(
+  VkInstance instance,
+  const VkDebugReportCallbackCreateInfoEXT* pCreateInfo,
+  const VkAllocationCallbacks* pAllocator,
+  VkDebugReportCallbackEXT* pCallback
+) {
     auto func = (PFN_vkCreateDebugReportCallbackEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT");
     if (func != nullptr) {
         return func(instance, pCreateInfo, pAllocator, pCallback);
@@ -34,7 +39,11 @@ VkResult CreateDebugReportCallbackEXT(VkInstance instance, const VkDebugReportCa
     }
 }
 
-void DestroyDebugReportCallbackEXT(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks* pAllocator) {
+void DestroyDebugReportCallbackEXT(
+  VkInstance instance,
+  VkDebugReportCallbackEXT callback,
+  const VkAllocationCallbacks* pAllocator
+) {
     auto func = (PFN_vkDestroyDebugReportCallbackEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
     if (func != nullptr) {
         func(instance, callback, pAllocator);
@@ -325,8 +334,12 @@ private:
         } else {
             VkExtent2D actualExtent = {WIDTH, HEIGHT};
 
-            actualExtent.width = std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actualExtent.width));
-            actualExtent.height = std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actualExtent.height));
+            actualExtent.width = std::max(
+              capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actualExtent.width)
+            );
+            actualExtent.height = std::max(
+              capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actualExtent.height)
+            );
 
             return actualExtent;
         }
@@ -461,7 +474,16 @@ private:
         return true;
     }
 
-    static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objType, uint64_t obj, size_t location, int32_t code, const char* layerPrefix, const char* msg, void* userData) {
+    static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+      VkDebugReportFlagsEXT flags,
+      VkDebugReportObjectTypeEXT objType,
+      uint64_t obj,
+      size_t location,
+      int32_t code,
+      const char* layerPrefix,
+      const char* msg,
+      void* userData
+    ) {
         std::cerr << "validation layer: " << msg << std::endl;
 
         return VK_FALSE;
